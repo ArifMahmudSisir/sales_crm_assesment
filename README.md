@@ -23,4 +23,3 @@ docker compose up --build
 ## Notes
 - Switch to HuggingFace or Groq by setting env in `.env` (see `.env.example`).
 - All outbound mail goes to MailHog (safe for demos).
-- Replace `data/leads.csv` with your own; keep headers.
