@@ -1,0 +1,48 @@
+services:
+  app:
+    build: ./app
+    container_name: sales_crm_app
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./reports:/app/reports
+    depends_on:
+      - mailhog
+      - ollama
+    ports:
+      - "8000:8000"
+    command: [ "bash", "-lc", "uvicorn main:app --host 0.0.0.0 --port 8000" ]
+
+  frontend:
+    build: ./frontend
+    container_name: sales_crm_frontend
+    depends_on:
+      - app
+    ports:
+      - "3000:3000"
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: sales_crm_mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: sales_crm_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    environment:
+      - OLLAMA_KEEP_ALIVE=10m
+    healthcheck:
+      test: ["CMD", "curl", "-s", "http://localhost:11434/api/tags"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  ollama:
