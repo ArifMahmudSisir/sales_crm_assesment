@@ -21,5 +21,5 @@ docker compose up --build
 - Report: `reports/campaign_summary.md`
 
 ## Notes
-- Switch to HuggingFace or Groq by setting env in `.env` (see `.env.example`).
+- Switch to HuggingFace or Groq by setting env in `.env`
 - All outbound mail goes to MailHog (safe for demos).
